@@ -3,8 +3,8 @@ FROM alpine:3.15
 RUN apk update
 RUN apk add nginx openssl openrc
 
-COPY srcs/default /etc/nginx/nginx.conf
-COPY srcs/nginx.sh /home/docker/script/nginx.sh
+COPY default /etc/nginx/nginx.conf
+COPY nginx.sh /home/docker/script/nginx.sh
 #COPY srcs/ssl.sh /home/docker/script/ssl.sh
 #COPY srcs/sshd_config /etc/ssh/sshd_config
 
@@ -34,8 +34,7 @@ RUN mkdir /www
 RUN chown -R user42:user42 \
 /var/lib/nginx \
 /www \
-/home/docker/script/nginx.sh \
-/home/docker/script/ssl.sh
+/home/docker/script/nginx.sh
 
 EXPOSE 80 443 22
 

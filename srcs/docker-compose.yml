@@ -36,12 +36,12 @@ services:
     restart: always
 
   mariadb:
-    build: requirements/mariadb/
+    build: requirements/MariaDB/
     container_name: MariaDB
     ports:
       - "3306:3306"
     volumes:
-      - /home/dchheang/data
+      - "/home/dchheang/data"
     networks:
       - backend
     environment:
@@ -50,3 +50,7 @@ services:
       WP_DATABASE_USR:     ${WP_DATABASE_USR}
       WP_DATABASE_PWD:     ${WP_DATABASE_PWD}
     restart: always
+
+networks:
+  frontend:
+  backend:
