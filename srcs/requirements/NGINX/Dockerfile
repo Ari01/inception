@@ -1,18 +1,7 @@
-FROM alpine:3.15
+FROM alpine:3.13
 
-RUN apk update
-RUN apk add nginx openssl openrc
-
-COPY default /etc/nginx/nginx.conf
-COPY nginx.sh /home/docker/script/nginx.sh
-#COPY srcs/ssl.sh /home/docker/script/ssl.sh
-#COPY srcs/sshd_config /etc/ssh/sshd_config
-
-# SSH CONFIG
-#RUN ssh-keygen -t dsa -P "" -f /etc/ssh/ssh_host_dsa_key && \
-#	ssh-keygen -t rsa -P "" -f /etc/ssh/ssh_host_rsa_key && \
-#	ssh-keygen -t ecdsa -P "" -f /etc/ssh/ssh_host_ecdsa_key && \
-#	ssh-keygen -t ed25519 -P "" -f /etc/ssh/ssh_host_ed25519_key
+RUN apk update && apk add nginx openssl
+RUN apk upgrade
 
 # SSL CONFIG
 RUN openssl req \
@@ -23,21 +12,18 @@ RUN openssl req \
         -keyout /etc/nginx/nginx.key \
         -out /etc/nginx/nginx-certificate.crt \
         -days 3650 \
-        -subj "/CN=FR/ST=Paris/L=Paris/O=42/OU=42/CN=192.168.49.100"
+        -subj "/CN=FR/ST=Paris/L=Paris/O=42/OU=dchheang/CN=dchheang"
 
 # CREATE USER
 RUN adduser -D "user42" && echo "user42:user42" | chpasswd
-
-# FOLDERS AND RIGHTS
-#RUN mkdir /etc/nginx/certificate
-RUN mkdir /www
+RUN mkdir /var/www/html
 RUN chown -R user42:user42 \
 /var/lib/nginx \
-/www \
-/home/docker/script/nginx.sh
+/var/www/html
+RUN mkdir /www
 
-EXPOSE 80 443 22
+COPY default /etc/nginx/nginx.conf
 
-CMD sh /home/docker/script/nginx.sh
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
 
 WORKDIR /etc/nginx

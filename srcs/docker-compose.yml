@@ -1,12 +1,14 @@
 version: '3'
-
 services:
+
   nginx:
     build: requirements/NGINX/
     container_name: NGINX
     ports:
       - "80:80"
       - "443:443"
+    volumes:
+      - "/home/dchheang/data:/var/www/html"
     depends_on:
       - wordpress
     networks:
@@ -19,12 +21,13 @@ services:
     ports:
       - "9000:9000"
     volumes:
-      - "/home/dchheang/data"
+      - "/home/dchheang/data:/var/www/html"
     depends_on:
       - mariadb
     networks:
       - frontend
       - backend
+    restart: always
     environment:
       MYSQL_HOST:       ${MYSQL_HOST}
       WP_DATABASE_NAME: ${WP_DATABASE_NAME}
@@ -33,7 +36,6 @@ services:
       DOMAIN_NAME:      ${DOMAIN_NAME}
       WP_ADMIN_USR:     ${WP_ADMIN_USR}
       WP_ADMIN_PWD:     ${WP_ADMIN_PWD}
-    restart: always
 
   mariadb:
     build: requirements/MariaDB/
@@ -41,16 +43,55 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - "/home/dchheang/data"
+      - "/home/dchheang/data:/var/lib/mysql"
     networks:
       - backend
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PWD}
-      WP_DATABASE_NAME:    ${WP_DATABASE_NAME}
-      WP_DATABASE_USR:     ${WP_DATABASE_USR}
-      WP_DATABASE_PWD:     ${WP_DATABASE_PWD}
     restart: always
-
+    environment:
+      MYSQL_ROOT_PWD:   ${MYSQL_ROOT_PWD}
+      WP_DATABASE_NAME: ${WP_DATABASE_NAME}
+      WP_DATABASE_USR:  ${WP_DATABASE_USR}
+      WP_DATABASE_PWD:  ${WP_DATABASE_PWD}
+    
+#  redis:
+#    build: requirements/bonus/redis
+#    container_name: redis
+#    ports:
+#      - "6379:6379"
+#    networks:
+#      - backend
+#    restart: always
+#    environment:
+#      REDIS_PWD: ${REDIS_PWD}
+#
+#  ftp-server:
+#    build: requirements/bonus/ftp-server
+#    container_name: ftp-server
+#    ports:
+#      - "21:21"
+#      - "21100-21110:21100-21110"
+#    volumes:
+#      - "~/Desktop/inception/website:/var/www/html/"
+#    networks:
+#      - backend
+#    restart: always
+#    environment:
+#      FTP_USR: ${FTP_USR}
+#      FTP_PWD: ${FTP_PWD}
+#
+#  portainer:
+#    image: portainer/portainer-ce:latest
+#    container_name: portainer
+#    ports:
+#      - "8000:8000"
+#      - "9443:9443"
+#    volumes:
+#      - "/etc/localtime:/etc/localtime:ro"
+#      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+#    security_opt:
+#      - no-new-privileges:true
+#    restart: always
+#
 networks:
   frontend:
   backend:

@@ -1,5 +1,7 @@
 FROM alpine:3.15
 
+VOLUME [ "/sys/fs/cgroup" ]
+
 # packages
 RUN apk update && apk add \
 openrc \

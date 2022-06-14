@@ -8,21 +8,6 @@ events {
 	# multi_accept on;
 }
 
-#stream {
-#	upstream ssh {
-#		server 192.168.49.100:22;
-#	}
-#
-#	upstream web {
-#		server 192.168.49.100:8443;
-#	}
-#
-#	map $ssl_preread_protocol $upstream {
-#		default ssh;
-#		"TLSv1*" web;
-#	}
-#}
-
 http {
 
 	##
@@ -77,7 +62,7 @@ http {
 		listen [::]:80;
 
 		server_name dchheang.42.fr;
-		return 301 https://$host$request_uri;
+		return 301 https://$server_name$request_uri;
 	}
 
 	server {
@@ -87,6 +72,7 @@ http {
 		ssl_certificate		/etc/nginx/nginx-certificate.crt;
 		ssl_certificate_key	/etc/nginx/nginx.key;
 
+		server_name dchheang.42.fr;
 		root /var/www/html;
 		index index.php index.html index.htm;
 
@@ -97,33 +83,11 @@ http {
 
 		location ~ \.php$ {
 			fastcgi_split_path_info ^(.+\.php)(/.+)$;
-			fastcgi_pass wordpress:9000;
-			fastcgi_index index.php;
-			include fastcgi_params;
-			fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-			fastcgi_param SCRIPT_NAME $fastcgi_script_name;
+    		fastcgi_pass wordpress:9000;
+    		fastcgi_index index.php;
+    		include fastcgi_params;
+    		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    		fastcgi_param PATH_INFO $fastcgi_path_info;
 		}
 	}
 }
-
-
-#mail {
-#	# See sample authentication script at:
-#	# http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript
-# 
-#	# auth_http localhost/auth.php;
-#	# pop3_capabilities "TOP" "USER";
-#	# imap_capabilities "IMAP4rev1" "UIDPLUS";
-# 
-#	server {
-#		listen     localhost:110;
-#		protocol   pop3;
-#		proxy      on;
-#	}
-# 
-#	server {
-#		listen     localhost:143;
-#		protocol   imap;
-#		proxy      on;
-#	}
-#}

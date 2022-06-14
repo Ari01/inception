@@ -1,17 +1,23 @@
-NAME = inception
+NAME =		inception
 
 all:		$(NAME)
 
 $(NAME):
-		@ sudo chmod 777 /etc/hosts
-		@ sudo echo "127.0.0.1 dchheang.42.fr" >> /etc/hosts
-		@ sudo service nginx stop
-		@ sudo service mysql stop
-		docker-compose -f srcs/docker-compose.yml up --build
+			docker-compose -f srcs/docker-compose.yml up --build
 
-clean:
-		docker system prune -f
+install:
+			@ sudo chmod 777 /etc/hosts
+			@ sudo echo "127.0.0.1 dchheang.42.fr" >> /etc/hosts
+			@ sudo service nginx stop
+			@ sudo service mysql stop
 
-re:		clean all
+stop:
+			docker-compose -f srcs/docker-compose.yml down
+
+clean:		stop
+			@ sudo rm -rf /home/dchheang
+			docker system prune -f
+
+re:			clean all
 
 .PHONY:		all clean re
