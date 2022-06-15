@@ -11,7 +11,6 @@ mysql mysql-client
 
 # script
 COPY mysql.sh /home/docker/script/mysql.sh
-COPY alter.sh /home/docker/script/alter.sh
 COPY database.sh /home/docker/script/database.sh
 COPY mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
 
