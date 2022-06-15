@@ -1,7 +1,6 @@
-#php-fpm7
 cd /var/www/html/wordpress/
 wp core download
-cp /home/docker/script/wp-config.php .
+mv /home/docker/script/wp-config.php .
 
 #wp core config --dbname=wp --dbuser=root --dbpass=user42 --dbhost=mysql --dbprefix=wp_
 wp core install --url=$DOMAIN_NAME/wordpress --title="test" --admin_user=$WP_ADMIN_USR --admin_password=$WP_ADMIN_PWD --admin_email="admin@test.fr" --path=/var/www/html/wordpress/

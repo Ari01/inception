@@ -4,6 +4,7 @@ FROM alpine:3.15
 RUN apk update && apk add \
 curl \
 wget \
+mariadb-client \
 php7 php7-fpm php7-opcache php7-mysqli php7-phar php7-json php-mbstring php-gettext
 
 # WORDPRESS CLI

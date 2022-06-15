@@ -28,14 +28,15 @@ services:
       - frontend
       - backend
     restart: always
-    environment:
-      MYSQL_HOST:       ${MYSQL_HOST}
-      WP_DATABASE_NAME: ${WP_DATABASE_NAME}
-      WP_DATABASE_USR:  ${WP_DATABASE_USR}
-      WP_DATABASE_PWD:  ${WP_DATABASE_PWD}
-      DOMAIN_NAME:      ${DOMAIN_NAME}
-      WP_ADMIN_USR:     ${WP_ADMIN_USR}
-      WP_ADMIN_PWD:     ${WP_ADMIN_PWD}
+    env_file:
+      - .env
+#      MYSQL_HOST: ${MYSQL_HOST}
+#      WP_DATABASE_NAME: ${WP_DATABASE_NAME}
+#      WP_DATABASE_USR: ${WP_DATABASE_USR}
+#      WP_DATABASE_PWD: ${WP_DATABASE_PWD}
+#      DOMAIN_NAME: ${DOMAIN_NAME}
+#      WP_ADMIN_USR: ${WP_ADMIN_USR}
+#      WP_ADMIN_PWD: ${WP_ADMIN_PWD}
 
   mariadb:
     build: requirements/MariaDB/
@@ -43,15 +44,17 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - "/home/dchheang/data:/var/lib/mysql"
+      - /home/dchheang/data:/var/lib/mysql
     networks:
       - backend
     restart: always
-    environment:
-      MYSQL_ROOT_PWD:   ${MYSQL_ROOT_PWD}
-      WP_DATABASE_NAME: ${WP_DATABASE_NAME}
-      WP_DATABASE_USR:  ${WP_DATABASE_USR}
-      WP_DATABASE_PWD:  ${WP_DATABASE_PWD}
+    env_file:
+      - .env
+#    environment:
+#      MYSQL_ROOT_PWD: ${MYSQL_ROOT_PWD}
+#      WP_DATABASE_NAME: ${WP_DATABASE_NAME}
+#      WP_DATABASE_USR: ${WP_DATABASE_USR}
+#      WP_DATABASE_PWD: ${WP_DATABASE_PWD}
     
 #  redis:
 #    build: requirements/bonus/redis
