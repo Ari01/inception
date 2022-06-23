@@ -8,7 +8,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - "/home/dchheang/data:/var/www/html"
+      - nginx_volume:/var/www/html
     depends_on:
       - wordpress
     networks:
@@ -21,7 +21,7 @@ services:
     ports:
       - "9000:9000"
     volumes:
-      - "/home/dchheang/data:/var/www/html"
+      - wp_volume:/var/www/html
     depends_on:
       - mariadb
     networks:
@@ -37,12 +37,32 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - /home/dchheang/data:/var/lib/mysql
+      - mariadb_volume:/var/lib/mysql
     networks:
       - backend
     restart: always
     env_file:
       - .env
+
+volumes:
+  wp_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/dchheang/data
+  mariadb_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/dchheang/data
+  nginx_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/dchheang/data
 
 networks:
   frontend:

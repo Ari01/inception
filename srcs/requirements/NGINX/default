@@ -57,13 +57,13 @@ http {
 	##
 	# Virtual Host Configs
 	##
-	server {
-		listen 80;
-		listen [::]:80;
-
-		server_name dchheang.42.fr;
-		return 301 https://$server_name$request_uri;
-	}
+#	server {
+#		listen 80;
+#		listen [::]:80;
+#
+#		server_name dchheang.42.fr;
+#		return 301 https://$server_name$request_uri;
+#	}
 
 	server {
 		listen 443 ssl;
@@ -73,11 +73,10 @@ http {
 		ssl_certificate_key	/etc/nginx/nginx.key;
 
 		server_name dchheang.42.fr;
-		root /var/www/html;
+		root /var/www/html/wordpress;
 		index index.php index.html index.htm;
 
 		location / {
-			autoindex on;
 			try_files $uri $uri/ /index.php?args;
 		}
 
@@ -87,11 +86,11 @@ http {
 
 		location ~ \.php$ {
 			fastcgi_split_path_info ^(.+\.php)(/.+)$;
-    		fastcgi_pass wordpress:9000;
-    		fastcgi_index index.php;
-    		include fastcgi_params;
-    		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-    		fastcgi_param PATH_INFO $fastcgi_path_info;
+			fastcgi_pass wordpress:9000;
+			fastcgi_index index.php;
+			include fastcgi_params;
+			fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+			fastcgi_param PATH_INFO $fastcgi_path_info;
 		}
 	}
 }

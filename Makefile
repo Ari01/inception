@@ -3,6 +3,7 @@ NAME =		inception
 all:		$(NAME)
 
 $(NAME):
+		sudo mkdir -p /home/dchheang/data
 		docker-compose -f srcs/docker-compose.yml up --build
 
 install:
