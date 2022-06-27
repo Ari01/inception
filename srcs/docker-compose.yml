@@ -3,7 +3,8 @@ services:
 
   nginx:
     build: requirements/NGINX/
-    container_name: NGINX
+    image: nginx
+    container_name: nginx
     ports:
       - "80:80"
       - "443:443"
@@ -17,7 +18,8 @@ services:
 
   wordpress:
     build: requirements/WordPress/
-    container_name: WordPress
+    image: wordpress
+    container_name: wordpress
     ports:
       - "9000:9000"
     volumes:
@@ -33,7 +35,8 @@ services:
 
   mariadb:
     build: requirements/MariaDB/
-    container_name: MariaDB
+    image: mariadb
+    container_name: mariadb
     ports:
       - "3306:3306"
     volumes:

@@ -8,6 +8,6 @@ done
 
 wp core install --url=$DOMAIN_NAME --title="test" --admin_user=$WP_ADMIN_USR --admin_password=$WP_ADMIN_PWD --admin_email="admin@test.fr" --path=/var/www/html/wordpress/
 
-wp user create author author@test.fr --role=author --path=/var/www/html/wordpress/
-wp user create author2 author2@test.fr --role=author --path=/var/www/html/wordpress/
+wp user create author author@test.fr --role=author --user_pass=$WP_ADMIN_PWD --path=/var/www/html/wordpress/
+wp user create author2 author2@test.fr --role=author --user_pass=$WP_ADMIN_PWD --path=/var/www/html/wordpress/
 /usr/sbin/php-fpm7 -F -R
