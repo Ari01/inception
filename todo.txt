@@ -1,3 +1,0 @@
-- nginx 80 not accessible
-- volumes /home/dchheang/data
-- mysql -uroot not accessible
